@@ -13,8 +13,6 @@ export default function AdminPage() {
           <title>Admin</title>
         </Helmet>
       <>
-    
-
         <div className="flex h-screen bg-gradient-to-br from-gray-100 to-gray-200">
           <Sidebar />
           <div className="flex-1 flex flex-col">

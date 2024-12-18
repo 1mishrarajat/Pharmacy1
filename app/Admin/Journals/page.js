@@ -176,7 +176,6 @@ export default function Dashboard() {
         <title>Admin/Journals</title>
       </Helmet>
     <>
-    
 
       <div className="flex flex-col md:flex-row h-screen bg-gray-100 text-gray-800">
         <Sidebar className="bg-gray-900 text-white w-full md:w-64 flex-none" />
