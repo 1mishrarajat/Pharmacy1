@@ -13,7 +13,7 @@ export default function Login() {
   
   const Router = useRouter();
  
-  // useAuth();
+  useAuth();
   // useEffect(() => {
   //   setIsClient(true); // Ensure client-side rendering
   // }, []);
