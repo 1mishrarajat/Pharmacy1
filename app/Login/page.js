@@ -1,19 +1,26 @@
 
 "use client";
+import { redirect } from "next/navigation";
 import React, { useState} from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUser, FaLock } from "react-icons/fa";
-import { useAuth } from "../Auth/useAuth";
+
 import { Helmet, HelmetProvider } from "react-helmet-async";
 export default function Login() {
   const [valuedata, setvaluedata] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({ username: "", password: "" });
   
   const Router = useRouter();
- 
-  useAuth();
+  // const handleLogin = () => {
+  //   // Simulate login success
+  //   localStorage.setItem("isLoggedIn", "true");
+  //   // Router.push("/settings"); // Redirect to the homepage or dashboard after login
+    
+  // };
+
+  // useAuth();
   // useEffect(() => {
   //   setIsClient(true); // Ensure client-side rendering
   // }, []);
@@ -151,7 +158,7 @@ export default function Login() {
               {errors.password && <span className="text-red-500 text-sm mt-1">{errors.password}</span>}
             </div>
 
-            <button
+            <button 
               type="submit"
               className="w-full py-3 bg-teal-700 text-white font-bold rounded-lg shadow-xl hover:bg-teal-700 transition-transform transform hover:scale-105"
             >
