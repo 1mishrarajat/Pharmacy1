@@ -35,7 +35,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex  bg-gray-100">
     
       <button
         onClick={toggleMobileSidebar}

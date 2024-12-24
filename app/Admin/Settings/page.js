@@ -6,7 +6,7 @@ import Sidebar from "../Sidebar"
 import Header from "../Header"
 import { Helmet, HelmetProvider } from "react-helmet-async";
 const SettingsPage = () => {
-  const [profileImage, setProfileImage] = useState("/default-avatar.png");
+  const [profileImage, setProfileImage] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",

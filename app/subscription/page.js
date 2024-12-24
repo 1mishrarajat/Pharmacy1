@@ -1,45 +1,35 @@
-
 'use client';
-
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from "next/navigation";
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 
 const SubscriptionPage = () => {
   const qrCodeImage = "https://images.all-free-download.com/images/graphiclarge/qr_scan_poster_elegant_leaves_decor_6854091.jpg";
   const backgroundImage = "https://media.gettyimages.com/id/1370717155/video/4k-video-footage-of-a-unrecognizable-woman-using-a-tablet-in-a-cafe.jpg?s=640x640&k=20&c=Grj9wqe2DHw2naFFpjWr0unGa9fD2QeNNMT-kJv7y_s=";
 
   const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState(null);  // New state to track payment status
+  const Router = useRouter();
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsVisible(true);
     }, 500);
 
-    const storedUsername = localStorage.getItem("registeredUsername");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-
     return () => clearTimeout(timeoutId);
   }, []);
 
+  // Handle subscription request
   const handleSubscribe = async () => {
-    if (!username.trim()) {
-      // Show SweetAlert for missing username
-      Swal.fire({
-        title: "Error",
-        text: "Username is required. Please enter a valid username.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+    if (!username || username.trim() === "") {
+      toast.error("Please enter a valid username.");
       return;
     }
 
-    setIsLoading(true); // Show loading state
     try {
-      const response = await fetch('https://dir.mripub.com/api/subscriptions.php', {
+      const response = await fetch('http://localhost/Php_fetch_crud/Subcription.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,53 +38,27 @@ const SubscriptionPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
+        throw new Error("Subscription failed");
       }
 
       const data = await response.json();
-      if (data.username) {
-        // Show SweetAlert for success and redirect after 3 seconds
-        Swal.fire({
-          title: "Subscription Successful!",
-          text: "Your subscription has been successfully completed. Redirecting to login...",
-          icon: "success",
-          timer: 1000, // 3 seconds
-          showConfirmButton: false,
-        });
 
-        setTimeout(() => {
-          window.location.href = '/Login'; // Redirect to login
-        }, 1000);
-      } 
-      else {
-        // Show SweetAlert for API failure
-        Swal.fire({
-          title: "Error",
-          text: data.message || "Subscription fa. Please try again.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+      // Simulate the payment process here (you should replace this with real payment integration)
+      const paymentSuccess = true; // This should come from your payment gateway
+
+      if (paymentSuccess) {
+        setPaymentStatus('success'); // Update payment status
+        toast.success("Payment successful! You are now subscribed.");
+        Router.push("/Login");
+      } else {
+        setPaymentStatus('failure'); // Update payment status
+        toast.error("Payment failed. Please try again.");
       }
     } catch (error) {
+      setPaymentStatus('failure'); // Update payment status
+      toast.error("An unexpected error occurred. Please try again later.");
       console.error("Error during subscription:", error);
-      // Show SweetAlert for unexpected errors
-      Swal.fire({
-        title: "Error",
-        text: "An unexpected error occurred. Please try again later.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-    } finally {
-      setIsLoading(false); // Stop loading state
     }
-  };
-
-  const handleSkip = () => {
-    window.location.href = '/register';
-  };
-
-  const handleLogin = () => {
-    window.location.href = '/Login';
   };
 
   return (
@@ -135,26 +99,16 @@ const SubscriptionPage = () => {
               <button
                 className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-transform duration-300 transform hover:scale-105 shadow-lg flex-1"
                 onClick={handleSubscribe}
-                disabled={isLoading}
               >
-                {isLoading ? 'Subscribing...' : 'Subscribe'}
-              </button>
-              <button
-                className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-transform duration-300 transform hover:scale-105 shadow-lg flex-1"
-                onClick={handleSkip}
-              >
-                Skip
-              </button>
-              <button
-                className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-transform duration-300 transform hover:scale-105 shadow-lg flex-1"
-                onClick={handleLogin}
-              >
-                Login
+                Subscribe
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 };

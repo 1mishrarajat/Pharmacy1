@@ -158,10 +158,10 @@
               
 //             </Helmet>
 //     <>
-//     <link
-//         rel="stylesheet"
-//         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-//       />
+    // <link
+    //     rel="stylesheet"
+    //     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    //   />
 //      <header className="sticky top-0 z-50 bg-white shadow-md">
 //   <div className="bg-gray-200 text-gray-600 p-2 text-sm">
 //     <div className="container mx-auto flex justify-between items-center">
@@ -188,7 +188,7 @@
 
 //     <div className="text-center md:text-left">
 //       <p className="text-red-500">
-//         <span className="text-blue-900 font-semibold">Institution: <span className="text-red-500">"Hello world!"</span> </span>
+//         <span className="text-blue-900 font-semibold">Institution: <span className="text-red-500">"RiseCommerce!"</span> </span>
 //       </p>
 //       <p className="text-blue-900">(DELNET Membership number: IM-3250)</p>
 //     </div>
@@ -364,8 +364,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { redirect } from "next/navigation";
-
 export default function Page() {
   const Router = useRouter();
   const [data, setData] = useState([]);
@@ -401,7 +399,7 @@ export default function Page() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://dir.mripub.com/api/pharmacy.php?page=${page}`, // Adjust this URL to match your API's pagination parameter
+        `https://dir.mripub.com/api/Pharmacy.php?page=${page}`, // Adjust this URL to match your API's pagination parameter
         {
           method: "GET",
           headers: {
@@ -501,13 +499,21 @@ export default function Page() {
     Router.push("/Login");
   };
 
-  return (
+  return (  
+    
     <HelmetProvider>
+      <>
+      
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      />
+    
       <Helmet>
         <meta charSet="utf-8" />
         <title>Pharmanet</title>
       </Helmet>
-      <header className="sticky top-0 z-50 bg-white shadow-md">
+      <header className=" top-0 z-50 bg-white shadow-md">
         <div className="bg-gray-200 text-gray-600 p-2 text-sm">
           <div className="container mx-auto flex justify-between items-center">
             <p>Emergency Help!</p>
@@ -534,7 +540,7 @@ export default function Page() {
           <div className="text-center md:text-left">
             <p className="text-red-500">
               <span className="text-blue-900 font-semibold">
-                Institution: <span className="text-red-500">"Hello world!"</span>
+                Institution: <span className="text-red-500">"RiseCommerce!"</span>
               </span>
             </p>
             <p className="text-blue-900">(DELNET Membership number: IM-3250)</p>
@@ -714,6 +720,7 @@ export default function Page() {
           </div>
         </div>
       </footer>
+      </>
     </HelmetProvider>
   );
 }
