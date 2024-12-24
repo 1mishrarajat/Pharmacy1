@@ -503,8 +503,6 @@ export default function Page() {
     
     <HelmetProvider>
       <>
-      
-    
     
       <Helmet>
         <meta charSet="utf-8" />
