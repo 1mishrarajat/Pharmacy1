@@ -504,15 +504,16 @@ export default function Page() {
     <HelmetProvider>
       <>
       
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      />
+    
     
       <Helmet>
         <meta charSet="utf-8" />
         <title>Pharmanet</title>
       </Helmet>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      />
       <header className=" top-0 z-50 bg-white shadow-md">
         <div className="bg-gray-200 text-gray-600 p-2 text-sm">
           <div className="container mx-auto flex justify-between items-center">

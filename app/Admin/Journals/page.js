@@ -1050,98 +1050,6 @@ export default function Dashboard() {
     });
   };
 
-  const handleEditSave = async () => {
-    try {
-      const response = await fetch(`https://dir.mripub.com/api/Journals.php`, {
-        method: "PUT", // Or "POST" if your backend uses POST for updates
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(editData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save the changes. Please try again.");
-      }
-
-      const updatedItem = await response.json();
-      setData((prevData) =>
-        prevData.map((item) => (item.id === updatedItem.id ? updatedItem : item))
-      );
-      setFilteredData((prevData) =>
-        prevData.map((item) => (item.id === updatedItem.id ? updatedItem : item))
-      );
-
-      closeEditModal();
-    } catch (error) {
-      console.error("Error saving changes:", error);
-      alert(error.message || "An unknown error occurred.");
-    }
-  };
-
-  useEffect(() => {
-    const editId = query?.edit;
-    if (editId) {
-      const selectedItem = data.find((item) => item.id === parseInt(editId));
-      if (selectedItem) {
-        setEditData({ ...selectedItem });
-        setEditModalOpen(true);
-      }
-    } else {
-      setEditModalOpen(false);
-    }
-  }, [query, data]);
-
-  const handleDelete = (id) => {
-    // First, show a toast to notify about the deletion
-    toast.info('Click to confirm deletion', {
-      position: "top-right",
-      autoClose: 3000,
-    });
-
-    // Show SweetAlert2 for confirmation
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to delete this journal?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, cancel!',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await fetch(`https://dir.mripub.com/api/Journals.php?id=${id}`, {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to delete the item.");
-          }
-
-          setData((prevData) => prevData.filter((item) => item.id !== id));
-          setFilteredData((prevData) => prevData.filter((item) => item.id !== id));
-
-          Swal.fire(
-            'Deleted!',
-            'Your journal has been deleted.',
-            'success'
-          );
-        } catch (error) {
-          console.error("Error deleting item:", error);
-          Swal.fire(
-            'Error!',
-            'There was an issue deleting the journal.',
-            'error'
-          );
-        }
-      }
-    });
-  };
-
   const handleSearch = () => {
     if (searchTerm.trim()) {
       const filtered = data.filter(
@@ -1174,6 +1082,96 @@ export default function Dashboard() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handleEditSave = async () => {
+    try {
+      const response = await fetch("https://dir.mripub.com/api/Journals.php", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(editData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save the changes. Please try again.");
+      }
+
+      const updatedItem = await response.json();
+      console.log("Updated Item:", updatedItem);
+
+      // Update the data state without re-fetching the entire list
+      setData((prevData) =>
+        prevData.map((item) => (item.id === updatedItem.data.id ? updatedItem.data : item))
+      );
+
+      setFilteredData((prevData) =>
+        prevData.map((item) => (item.id === updatedItem.data.id ? updatedItem.data : item))
+      );
+
+      closeEditModal();
+      toast.success('Journal updated successfully!');
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'An unknown error occurred.',
+      });
+    }
+  };
+
+  const handleDelete = (id) => {
+    // First, show a toast to notify about the deletion
+    toast.info('Click to confirm deletion', {
+      position: "top-right",
+      autoClose: 3000,
+    });
+
+    // Show SweetAlert2 for confirmation
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to delete this journal?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`https://dir.mripub.com/api/Journals.php?id=${id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to delete the item.");
+          }
+
+          // Update the state by removing the deleted journal from the data
+          setData((prevData) => prevData.filter((item) => item.id !== id));
+          setFilteredData((prevData) => prevData.filter((item) => item.id !== id));
+
+          // Show success message after deletion
+          Swal.fire(
+            'Deleted!',
+            'Your journal has been deleted.',
+            'success'
+          );
+        } catch (error) {
+          console.error("Error deleting item:", error);
+          Swal.fire(
+            'Error!',
+            'There was an issue deleting the journal.',
+            'error'
+          );
+        }
+      }
+    });
+  };
 
   return (
     <HelmetProvider>
