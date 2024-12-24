@@ -991,7 +991,7 @@ export default function Dashboard() {
   // Fetch data from the API
   const fetchData = async () => {
     try {
-      const response = await fetch("https://dir.mripub.com/api/journals.php", {
+      const response = await fetch("https://dir.mripub.com/api/Journals.php", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -1052,7 +1052,7 @@ export default function Dashboard() {
 
   const handleEditSave = async () => {
     try {
-      const response = await fetch(`https://dir.mripub.com/api/journals.php`, {
+      const response = await fetch(`https://dir.mripub.com/api/Journals.php`, {
         method: "PUT", // Or "POST" if your backend uses POST for updates
         headers: {
           "Content-Type": "application/json",
@@ -1111,7 +1111,7 @@ export default function Dashboard() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`https://dir.mripub.com/api/journals.php?id=${id}`, {
+          const response = await fetch(`https://dir.mripub.com/api/Journals.php?id=${id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
