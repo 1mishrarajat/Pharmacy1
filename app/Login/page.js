@@ -300,7 +300,7 @@ export default function Login() {
             />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            Login Now 
+            Login Now
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6 relative">
