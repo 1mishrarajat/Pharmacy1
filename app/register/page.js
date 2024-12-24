@@ -212,7 +212,7 @@ export default function register() {
           toast.success("Registration successful!");
           
           // Redirect immediately after showing the toast
-          router.push("/subscription");
+         // router.push("/subscription");
         } else {
           toast.error("Failed to register. Please try again.");
         }

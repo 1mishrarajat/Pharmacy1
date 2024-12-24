@@ -29,7 +29,7 @@ const SubscriptionPage = () => {
     }
 
     try {
-      const response = await fetch('http://localhost/Php_fetch_crud/Subcription.php', {
+      const response = await fetch('', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
