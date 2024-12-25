@@ -364,6 +364,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   const Router = useRouter();
   const [data, setData] = useState([]);

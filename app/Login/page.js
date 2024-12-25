@@ -182,8 +182,7 @@
 //   );
 // }
 
-"use client";
-import { redirect } from "next/navigation";
+"use cache";
 import React, { useState} from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";

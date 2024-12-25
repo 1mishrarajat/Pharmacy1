@@ -11,7 +11,7 @@ export default function Custom404() {
       <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
         <img
           // Replace with your own meme URL
-          src="/public/Error.jpg"  // Example meme image (you can replace this URL)
+          src=""  // Example meme image (you can replace this URL)
           alt="Funny Meme"
           className="w-full rounded-md"
         />
