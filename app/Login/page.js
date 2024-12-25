@@ -182,7 +182,7 @@
 //   );
 // }
 
-"use cache";
+"use client";
 import React, { useState} from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
@@ -195,27 +195,7 @@ export default function Login() {
   const [errors, setErrors] = useState({ username: "", password: "" });
   
   const Router = useRouter();
-  // const handleLogin = () => {
-  //   // Simulate login success
-  //   localStorage.setItem("isLoggedIn", "true");
-  //   // Router.push("/settings"); // Redirect to the homepage or dashboard after login
-    
-  // };
-
-  // useAuth();
-  // useEffect(() => {
-  //   setIsClient(true); // Ensure client-side rendering
-  // }, []);
-
-  // useEffect(() => {
-  //   if (isClient) {
-  //     const authToken = localStorage.getItem("authToken"); 
-  //     if (authToken) {
-  //       toast.info("Already logged in. Redirecting...");
-  //       // Router.push("/"); // Redirect authenticated users
-  //     }
-  //   }
-  // }, [isClient, Router]);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -299,7 +279,7 @@ export default function Login() {
             />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            Login Now
+            Login In
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6 relative">
@@ -344,7 +324,7 @@ export default function Login() {
               type="submit"
               className="w-full py-3 bg-teal-700 text-white font-bold rounded-lg shadow-xl hover:bg-teal-700 transition-transform transform hover:scale-105"
             >
-              Log In
+              Log Now
             </button>
           </form>
 
