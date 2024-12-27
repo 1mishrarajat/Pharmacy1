@@ -29,7 +29,7 @@ const SubscriptionPage = () => {
     }
 
     try {
-      const response = await fetch('', {
+      const response = await fetch('https://localhost/api/Regristration.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

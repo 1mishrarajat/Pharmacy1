@@ -33,7 +33,7 @@ export default function Login() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://dir.mripub.com/api/Signup.php", {
+      const response = await fetch("http://localhost/api/Signup.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default function Login() {
             />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            Login In
+            Login Now
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6 relative">
