@@ -104,7 +104,7 @@ const SettingsPage = () => {
     try {
       const token = localStorage.getItem("authToken");
 
-      const response = await fetch("https://dir.mripub.com/apiSetting.php", {
+      const response = await fetch("https://dir.mripub.com/api/setting.php", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
