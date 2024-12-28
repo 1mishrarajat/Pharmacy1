@@ -834,6 +834,7 @@ const SettingsPage = () => {
     try {
       const token = localStorage.getItem("authToken");
 
+<<<<<<< HEAD
       // Prepare request data based on whether password fields are provided
       const data = {
         first_name,
@@ -847,6 +848,8 @@ const SettingsPage = () => {
         data.password = password;
       }
 
+=======
+>>>>>>> 8138908256682c80a497f87ebcb5e9d5c69edc54
       const response = await fetch("https://dir.mripub.com/api/setting.php", {
         method: "PUT",
         headers: {

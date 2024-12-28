@@ -54,7 +54,11 @@ export default function register() {
     if (validateForm()) {
       console.log("Form Data Submitted:", formData);
       try {
+<<<<<<< HEAD
         const response = await fetch('https://dir.mripub.com/Api/Regristration.php', {
+=======
+        const response = await fetch('https://dir.mripub.com/api/Regristration.php', {
+>>>>>>> 8138908256682c80a497f87ebcb5e9d5c69edc54
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
