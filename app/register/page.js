@@ -54,7 +54,7 @@ export default function register() {
     if (validateForm()) {
       console.log("Form Data Submitted:", formData);
       try {
-        const response = await fetch('https://localhost/api/Regristration.php', {
+        const response = await fetch('https://dir.mripub.com/Api/Regristration.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
@@ -82,7 +82,7 @@ export default function register() {
     <HelmetProvider>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Register</title>
+        <title>Registers</title>
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
