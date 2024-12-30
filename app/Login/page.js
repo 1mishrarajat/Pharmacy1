@@ -243,7 +243,7 @@ export default function Login() {
       <>
         <ToastContainer />
 
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-[url('/bg-10.png')] bg-no-repeat bg-cover bg-center">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-[url('/bg-10.png')] bg-no-repeat bg-coverz bg-center">
           <div className="relative w-full max-w-md bg-white shadow-2xl rounded-3xl overflow-hidden p-8">
             <div className="flex justify-center">
               <img
