@@ -1,25 +1,170 @@
-"use client"
+"use client";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "../Sidebar"
-import Header from "../Header"
+import Sidebar from "../Sidebar";
+import Header from "../Header";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+
 const SettingsPage = () => {
   const [profileImage, setProfileImage] = useState("");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    first_name: "",
+    last_name: "",
+    username: "",
+    institute: "",
     password: "",
-    confirmPassword: "",
+    confirm_password: "",
   });
 
+  const [adminName, setAdminName] = useState("");  // State to hold the admin's name
   const router = useRouter();
+
+  // Fetch the current user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        Swal.fire({
+          icon: "error",
+          title: "Authorization Required",
+          text: "Please log in to access your profile.",
+        });
+        router.push("/Login");
+        return;
+      }
+
+      try {
+        const response = await fetch("https://dir.mripub.com/api/setting.php", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          setAdminName(result.data.first_name);  // Set the admin's name here
+          setFormData({
+            first_name: result.data.first_name || "",
+            last_name: result.data.last_name || "",
+            username: result.data.username || "",
+            institute: result.data.institute || "",
+            password: "",  // Keep the password fields empty initially
+            confirm_password: "",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: result.message || "Unable to fetch user data.",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message || "An unexpected error occurred.",
+        });
+      }
+    };
+
+    fetchUserData();
+  }, [router]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    const {
+      first_name,
+      last_name,
+      username,
+      institute,
+      password,
+      confirm_password,
+    } = formData;
+
+    // Validate non-password fields
+    if (!first_name || !last_name || !username || !institute) {
+      Swal.fire({
+        icon: "warning",
+        title: "Incomplete Form",
+        text: "Please fill all the fields.",
+      });
+      return;
+    }
+
+    // If passwords are provided, check that they match
+    if (password && password !== confirm_password) {
+      Swal.fire({
+        icon: "error",
+        title: "Password Mismatch",
+        text: "Password and Confirm Password must match.",
+      });
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+
+      // Request data based on whether password fields are provided
+      const data = {
+        first_name,
+        last_name,
+        username,
+        institute,
+      };
+
+      // Only add password fields if the user is changing the password
+      if (password) {
+        data.password = password;
+      }
+
+      const response = await fetch("https://dir.mripub.com/api/setting.php", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update settings");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated",
+          text: result.message || "Your profile has been updated successfully.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Update Failed",
+          text: result.message || "An error occurred while updating your profile.",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.message || "An unexpected error occurred.",
+      });
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -33,52 +178,12 @@ const SettingsPage = () => {
     }
   };
 
-  const handleSubmit = () => {
-    const { firstName, lastName, email, password, confirmPassword } = formData;
-
-    // Check if all fields are filled
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      Swal.fire({
-        icon: "warning",
-        title: "Incomplete Form",
-        text: "Please fill in all the fields.",
-      });
-      return;
-    }
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      Swal.fire({
-        icon: "error",
-        title: "Password Mismatch",
-        text: "Passwords do not match. Please check again.",
-      });
-      return;
-    }
-
-    // If all conditions are met
-    Swal.fire({
-      icon: "success",
-      title: "Profile Updated",
-      text: "Your profile has been updated successfully.",
-    }).then(() => {
-          // Redirect to the login page after clicking "OK"
-          router.push("/");
-        });
-      }
-
   return (
     <HelmetProvider>
       <Helmet>
-                <meta charSet="utf-8" />
-                <title>Admin/Settings</title>
-              
-            </Helmet>
-    <>
-      <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        rel="stylesheet"
-      />
+        <meta charSet="utf-8" />
+        <title>Admin/Settings</title>
+      </Helmet>
       <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 text-gray-800">
         <Sidebar />
         <div className="flex-1 flex flex-col">
@@ -111,7 +216,7 @@ const SettingsPage = () => {
               </div>
               <div className="text-center sm:text-left">
                 <h3 className="text-lg sm:text-xl font-semibold text-gray-700">
-                  Welcome, Admin!
+                  Welcome, {adminName || ""}
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600">
                   Keep your profile updated for better account security.
@@ -127,8 +232,8 @@ const SettingsPage = () => {
                   <label className="block text-sm font-medium">First Name</label>
                   <input
                     type="text"
-                    name="firstName"
-                    value={formData.firstName}
+                    name="first_name"
+                    value={formData.first_name}
                     placeholder="Enter the First Name"
                     onChange={handleChange}
                     className="mt-1 px-4 py-2 w-full border rounded-lg"
@@ -138,8 +243,8 @@ const SettingsPage = () => {
                   <label className="block text-sm font-medium">Last Name</label>
                   <input
                     type="text"
-                    name="lastName"
-                    value={formData.lastName}
+                    name="last_name"
+                    value={formData.last_name}
                     placeholder="Enter the Last Name"
                     onChange={handleChange}
                     className="mt-1 px-4 py-2 w-full border rounded-lg"
@@ -149,13 +254,25 @@ const SettingsPage = () => {
                   <label className="block text-sm font-medium">Email</label>
                   <input
                     type="email"
-                    name="email"
-                    value={formData.email}
+                    name="username"
+                    value={formData.username}
                     placeholder="Enter your email"
                     onChange={handleChange}
                     className="mt-1 px-4 py-2 w-full border rounded-lg"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium">Institution</label>
+                  <input
+                    type="text"
+                    name="institute"
+                    value={formData.institute}
+                    placeholder="Enter your Institution"
+                    onChange={handleChange}
+                    className="mt-1 px-4 py-2 w-full border rounded-lg"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium">Password</label>
                   <input
@@ -171,9 +288,9 @@ const SettingsPage = () => {
                   <label className="block text-sm font-medium">Confirm Password</label>
                   <input
                     type="password"
-                    name="confirmPassword"
+                    name="confirm_password"
                     placeholder="Confirm your password"
-                    value={formData.confirmPassword}
+                    value={formData.confirm_password}
                     onChange={handleChange}
                     className="mt-1 px-4 py-2 w-full border rounded-lg"
                   />
@@ -191,7 +308,6 @@ const SettingsPage = () => {
           </main>
         </div>
       </div>
-    </>
     </HelmetProvider>
   );
 };

@@ -1,14 +1,11 @@
-
-
 'use client';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from 'react-toastify'; // Import Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import Link from 'next/link';
 
-export default function register() {
+export default function Register() {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -20,7 +17,7 @@ export default function register() {
     state: "",
     password: "",
     institute: "",
-    ip_address: "",
+    ip_address: "196.169.0.1", // Default IP address set to 196.169.0.1
     pin: "",
   });
 
@@ -54,11 +51,7 @@ export default function register() {
     if (validateForm()) {
       console.log("Form Data Submitted:", formData);
       try {
-<<<<<<< HEAD
-        const response = await fetch('https://dir.mripub.com/Api/Regristration.php', {
-=======
         const response = await fetch('https://dir.mripub.com/api/Regristration.php', {
->>>>>>> 8138908256682c80a497f87ebcb5e9d5c69edc54
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
@@ -67,12 +60,12 @@ export default function register() {
         if (response.ok) {
           // Store the username in localStorage
           localStorage.setItem("username", formData.username);
-          
+          localStorage.setItem("institute", formData.institute);
           // Show success toast without onClose redirection
           toast.success("Registration successful!");
           
           // Redirect immediately after showing the toast
-        router.push("/subscription");
+          router.push("/subscription");
         } else {
           toast.error("Failed to register. Please try again.");
         }
@@ -88,7 +81,7 @@ export default function register() {
         <meta charSet="utf-8" />
         <title>Registers</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-[url('/bg-10.png')] bg-no-repeat bg-coverz bg-center">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
           <div className="flex justify-center">
             <img
@@ -101,9 +94,11 @@ export default function register() {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Register Now</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {["first_name", "last_name", "username", "password", "institute", "ip_address", "phone", "country", "state", "city", "pin", "address"].map((field, idx) => (
+            {["first_name", "last_name", "username", "password", "institute", "phone", "country", "state", "city", "pin", "address"].map((field, idx) => (
               <div key={idx}>
-                <label htmlFor={field} className="block text-sm font-medium text-gray-700">{field.replace(/_/g, " ").toUpperCase()}</label>
+                <label htmlFor={field} className="block text-sm font-medium text-gray-700">
+                  {field.replace(/_/g, " ").toUpperCase()}
+                </label>
                 <input
                   id={field}
                   name={field}
@@ -116,6 +111,21 @@ export default function register() {
                 />
               </div>
             ))}
+            <div key={7}>
+              <label htmlFor="ip_address" className="block text-sm font-medium text-gray-700">
+                IP ADDRESS
+              </label>
+              <input
+                id="ip_address"
+                name="ip_address"
+                type="text"
+                value="196.169.0.1"  // Static IP address
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-sm"
+                required
+                disabled  // Disable the input field
+              />
+            </div>
             <div className="md:col-span-2">
               <button
                 type="submit"

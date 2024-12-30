@@ -192,7 +192,7 @@ export default function Login() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://dir.mripub.com/api/Signup.php", {
+      const response = await fetch("https://dir.mripub.com/api/Signup.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

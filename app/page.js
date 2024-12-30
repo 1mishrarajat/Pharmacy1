@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -18,7 +16,8 @@ export default function Page() {
   const itemsPerPage = 10;
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
-
+  const [institute, setInstitute] = useState("");
+  
   // Redirect to login if no token is available
   useEffect(() => {
     // Check if we're on the client-side first (window is available)
@@ -30,6 +29,14 @@ export default function Page() {
       } else {
         setToken(token); // Set the token if available
       }
+    }
+  }, []);
+  
+  // Use useEffect to set institute once
+  useEffect(() => {
+    const storedinstitute = localStorage.getItem('institute');
+    if (storedinstitute) {
+      setInstitute(storedinstitute); // Set the institute state
     }
   }, []);
 
@@ -139,231 +146,232 @@ export default function Page() {
     // Clear the token from localStorage during logout
     localStorage.removeItem("authToken");
     localStorage.removeItem("role");
+    localStorage.removeItem("username");
     // Redirect to login page
     Router.push("/Login");
   };
 
   return (  
-    
     <HelmetProvider>
       <>
-    
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Pharmanets</title>
-      </Helmet>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      />
-      <header className=" top-0 z-50 bg-white shadow-md">
-        <div className="bg-gray-200 text-gray-600 p-2 text-sm">
-          <div className="container mx-auto flex justify-between items-center">
-            <p>Emergency Help!</p>
-            <div>
-              <i className="fa-brands fa-facebook p-1 text-[#1301DB]" aria-label="Facebook"></i>
-              <i className="fa-brands fa-twitter p-1 text-[#14C9D3]" aria-label="Twitter"></i>
-              <i className="fa-brands fa-google-plus-g p-1 text-[#E61C1C]" aria-label="Google Plus"></i>
-              <i className="fa-brands fa-youtube p-1 text-[#FA0C0C]" aria-label="YouTube"></i>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Pharmanets</title>
+        </Helmet>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+        <header className=" top-0 z-50 bg-white shadow-md">
+          <div className="bg-gray-200 text-gray-600 p-2 text-sm">
+            <div className="container mx-auto flex justify-between items-center">
+              <p>Emergency Help!</p>
+              <div>
+                <i className="fa-brands fa-facebook p-1 text-[#1301DB]" aria-label="Facebook"></i>
+                <i className="fa-brands fa-twitter p-1 text-[#14C9D3]" aria-label="Twitter"></i>
+                <i className="fa-brands fa-google-plus-g p-1 text-[#E61C1C]" aria-label="Google Plus"></i>
+                <i className="fa-brands fa-youtube p-1 text-[#FA0C0C]" aria-label="YouTube"></i>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-          <div className="p-3 md:mb-0 cursor-pointer">
-            <img
-              src="./Pharmanetlogo.png"
-              alt="Logo"
-              width={128}
-              height={128}
-              className="w-32 object-contain"
-            />
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            <div className="p-3 md:mb-0 cursor-pointer">
+              <img
+                src="./Pharmanetlogo.png"
+                alt="Logo"
+                width={128}
+                height={128}
+                className="w-32 object-contain"
+              />
+            </div>
+
+            <div className="text-center md:text-left">
+              <p className="text-red-500">
+                <span className="text-blue-900 font-semibold"   
+                >
+                  Institution: <span className="text-red-500">"{institute}"</span>
+                </span>
+              </p>
+              <p className="text-blue-900">(DELNET Membership number: IM-3250)</p>
+            </div>
+            <div className="flex items-center space-x-2 cursor-pointer">
+              <img
+                onClick={() => Router.push("/settings")}
+                src="profile.png"
+                className="h-16 w-16 rounded-full"
+                alt="User Profile"
+              />
+              <button onClick={handleLogout} className="text-white bg-blue-900 px-5 py-2 rounded-full">
+                Logout
+              </button>
+            </div>
           </div>
+        </header>
 
-          <div className="text-center md:text-left">
-            <p className="text-red-500">
-              <span className="text-blue-900 font-semibold">
-                Institution: <span className="text-red-500">"RiseCommerce!"</span>
+        <div className="bg-gray-800 py-4">
+          <div className="container mx-auto flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 p-4 bg-gray-700 rounded-lg">
+            <div className="relative flex-grow">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i className="fa-solid fa-magnifying-glass text-gray-400"></i>
               </span>
-            </p>
-            <p className="text-blue-900">(DELNET Membership number: IM-3250)</p>
-          </div>
-          <div className="flex items-center space-x-2 cursor-pointer">
-            <img
-              onClick={() => Router.push("/settings")}
-              src="profile.png"
-              className="h-16 w-16 rounded-full"
-              alt="User Profile"
-            />
-            <button onClick={handleLogout} className="text-white bg-blue-900 px-5 py-2 rounded-full">
-              Logout
+              <input
+                value={searchTerm}
+                type="text"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search Doctors, clinics, hospitals..."
+                className="pl-10 p-2 w-full text-sm text-gray-600 bg-white rounded-md outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-500"
+              />
+            </div>
+
+            {/* Location Dropdown */}
+            <div
+              className="relative flex-grow"
+              onMouseEnter={() => setDropdownOpen(true)}
+              onMouseLeave={() => setDropdownOpen(false)}
+            >
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i className="fa-solid fa-location-dot text-gray-400"></i>
+              </span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <i className="fa-solid fa-chevron-down text-gray-400" onClick={toggleDropdown}></i>
+              </span>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Select your Location"
+                className="pl-10 pr-10 p-2 w-full text-sm text-gray-600 bg-white rounded-md outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-500"
+              />
+              {dropdownOpen && (
+                <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+                  <ul>
+                    <li
+                      onClick={() => handleDropdownItemClick("New York")}
+                      className="p-2 cursor-pointer hover:bg-gray-200"
+                    >
+                      New York
+                    </li>
+                    <li
+                      onClick={() => handleDropdownItemClick("Los Angeles")}
+                      className="p-2 cursor-pointer hover:bg-gray-200"
+                    >
+                      Los Angeles
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={handleSearch}
+              className="px-6 py-2 text-sm font-semibold text-white bg-teal-500 rounded-md hover:bg-teal-600"
+            >
+              Search
             </button>
           </div>
         </div>
-      </header>
 
-      <div className="bg-gray-800 py-4">
-        <div className="container mx-auto flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 p-4 bg-gray-700 rounded-lg">
-          <div className="relative flex-grow">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <i className="fa-solid fa-magnifying-glass text-gray-400"></i>
-            </span>
-            <input
-              value={searchTerm}
-              type="text"
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search Doctors, clinics, hospitals..."
-              className="pl-10 p-2 w-full text-sm text-gray-600 bg-white rounded-md outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-500"
-            />
-          </div>
-
-          {/* Location Dropdown */}
-          <div
-            className="relative flex-grow"
-            onMouseEnter={() => setDropdownOpen(true)}
-            onMouseLeave={() => setDropdownOpen(false)}
-          >
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <i className="fa-solid fa-location-dot text-gray-400"></i>
-            </span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <i className="fa-solid fa-chevron-down text-gray-400" onClick={toggleDropdown}></i>
-            </span>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Select your Location"
-              className="pl-10 pr-10 p-2 w-full text-sm text-gray-600 bg-white rounded-md outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-500"
-            />
-            {dropdownOpen && (
-              <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-md">
-                <ul>
-                  <li
-                    onClick={() => handleDropdownItemClick("New York")}
-                    className="p-2 cursor-pointer hover:bg-gray-200"
+        <main className="container mx-auto mt-6 grid grid-cols-1 md:grid-cols-12 gap-4 px-4 md:px-10">
+          <div className="col-span-12 md:col-span-9">
+            <div className="space-y-4">
+              {loading ? (
+                <div className="text-center">Loading...</div>
+              ) : error ? (
+                <div className="text-center text-red-500">{error}</div>
+              ) : (
+                currentData.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-100 shadow-md rounded-lg p-4 space-y-2 md:space-y-0 h-full"
+                    style={{ minHeight: "100px" }}
                   >
-                    New York
-                  </li>
-                  <li
-                    onClick={() => handleDropdownItemClick("Los Angeles")}
-                    className="p-2 cursor-pointer hover:bg-gray-200"
-                  >
-                    Los Angeles
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={handleSearch}
-            className="px-6 py-2 text-sm font-semibold text-white bg-teal-500 rounded-md hover:bg-teal-600"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-
-      <main className="container mx-auto mt-6 grid grid-cols-1 md:grid-cols-12 gap-4 px-4 md:px-10">
-        <div className="col-span-12 md:col-span-9">
-          <div className="space-y-4">
-            {loading ? (
-              <div className="text-center">Loading...</div>
-            ) : error ? (
-              <div className="text-center text-red-500">{error}</div>
-            ) : (
-              currentData.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-100 shadow-md rounded-lg p-4 space-y-2 md:space-y-0 h-full"
-                  style={{ minHeight: "100px" }}
-                >
-                  <div className="flex flex-col space-y-1">
-                    <h3 className="font-bold text-gray-900 text-lg sm:text-xl">
+                    <div className="flex flex-col space-y-1">
+                      <h3 className="font-bold text-gray-900 text-lg sm:text-xl">
+                        {item?.url && typeof item.url === "string" ? (
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-blue-600"
+                          >
+                            {highlightText(item?.journal_name || "Unknown Category", searchTerm)}
+                          </a>
+                        ) : (
+                          highlightText(item?.journal_name || "Unknown Category", searchTerm)
+                        )}
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-600">
+                        {highlightText(item?.category_name || "No Journal Name", searchTerm)}
+                      </p>
+                    </div>
+                    <div className="text-gray-500 hover:text-blue-600 cursor-pointer mt-2 md:mt-0">
                       {item?.url && typeof item.url === "string" ? (
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:text-blue-600"
-                        >
-                          {highlightText(item?.journal_name || "Unknown Category", searchTerm)}
+                        <a href={item.url} target="_blank" rel="noopener noreferrer">
+                          <i className="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                       ) : (
-                        highlightText(item?.journal_name || "Unknown Category", searchTerm)
+                        <i className="fa-solid fa-arrow-up-right-from-square opacity-50 cursor-not-allowed"></i>
                       )}
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-600">
-                      {highlightText(item?.category_name || "No Journal Name", searchTerm)}
-                    </p>
+                    </div>
                   </div>
-                  <div className="text-gray-500 hover:text-blue-600 cursor-pointer mt-2 md:mt-0">
-                    {item?.url && typeof item.url === "string" ? (
-                      <a href={item.url} target="_blank" rel="noopener noreferrer">
-                        <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
-                    ) : (
-                      <i className="fa-solid fa-arrow-up-right-from-square opacity-50 cursor-not-allowed"></i>
-                    )}
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+                ))
+              )}
+            </div>
 
-          <div className="flex justify-between items-center mt-4 flex-col md:flex-row">
-            <div className="w-full flex justify-between items-center mx-auto space-x-4 md:w-auto">
-              <button
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                className="px-4 py-2 text-sm bg-blue-900 text-white rounded-md disabled:bg-gray-300 w-full md:w-auto"
-              >
-                Previous
-              </button>
-              <span className="text-gray-700 text-center">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 text-sm bg-blue-900 text-white rounded-md disabled:bg-gray-300 w-full md:w-auto"
-              >
-                Next
-              </button>
+            <div className="flex justify-between items-center mt-4 flex-col md:flex-row">
+              <div className="w-full flex justify-between items-center mx-auto space-x-4 md:w-auto">
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 text-sm bg-blue-900 text-white rounded-md disabled:bg-gray-300 w-full md:w-auto"
+                >
+                  Previous
+                </button>
+                <span className="text-gray-700 text-center">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 text-sm bg-blue-900 text-white rounded-md disabled:bg-gray-300 w-full md:w-auto"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      <footer className="bg-gray-800 text-white px-2 py-4 mt-6">
-        <div className="container sticky mx-auto flex justify-between items-center">
-          <a href="https://mripub.com/" target="_blank" rel="noopener noreferrer">
-            <p className="cursor-pointer hover:text-white text-white">
-              &copy; 2024 MRI Publication
-            </p>
-          </a>
-          <div>
-            <i
-              className="fa-brands fa-facebook p-2 text-[#1301DB]"
-              aria-label="Facebook"
-            ></i>
-            <i
-              className="fa-brands fa-twitter p-2 text-[#14C9D3]"
-              aria-label="Twitter"
-            ></i>
-            <i
-              className="fa-brands fa-google-plus-g p-2 text-[#E61C1C]"
-              aria-label="Google Plus"
-            ></i>
-            <i
-              className="fa-brands fa-youtube p-2 text-[#FA0C0C]"
-              aria-label="YouTube"
-            ></i>
+        <footer className="bg-gray-800 text-white px-2 py-4 mt-6">
+          <div className="container sticky mx-auto flex justify-between items-center">
+            <a href="https://mripub.com/" target="_blank" rel="noopener noreferrer">
+              <p className="cursor-pointer hover:text-white text-white">
+                &copy; 2024 MRI Publication
+              </p>
+            </a>
+            <div>
+              <i
+                className="fa-brands fa-facebook p-2 text-[#1301DB]"
+                aria-label="Facebook"
+              ></i>
+              <i
+                className="fa-brands fa-twitter p-2 text-[#14C9D3]"
+                aria-label="Twitter"
+              ></i>
+              <i
+                className="fa-brands fa-google-plus-g p-2 text-[#E61C1C]"
+                aria-label="Google Plus"
+              ></i>
+              <i
+                className="fa-brands fa-youtube p-2 text-[#FA0C0C]"
+                aria-label="YouTube"
+              ></i>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
       </>
     </HelmetProvider>
   );
 }
+

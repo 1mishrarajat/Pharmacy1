@@ -178,7 +178,7 @@ export default function Dashboard() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`https://dir.mripub.com/api/Journals.php?id=${id}`, {
+          const response = await fetch(`http://localhost/api/Journals.php?id=${id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
