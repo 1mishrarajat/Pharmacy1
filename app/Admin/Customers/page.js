@@ -217,7 +217,7 @@ export default function Customers() {
                           key={item.id}
                           className="bg-white hover:bg-gray-100 transition-colors duration-200"
                         >
-                          <td className="px-2 py-3 border">{index + 1}</td>
+                          <td className="px-2 py-3 border">{item.id}</td>
                           <td className="px-2 py-3 truncate border">{item.first_name}</td>
                           <td className="px-2 py-3 truncate border">{item.last_name}</td>
                           <td className="px-2 py-3 truncate border">{item.username}</td>
