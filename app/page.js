@@ -16,12 +16,22 @@ export default function Page() {
   const itemsPerPage = 10;
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
+<<<<<<< HEAD
    const [institution, setInstitution] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedInstitution = localStorage.getItem("institution");
       setInstitution(storedInstitution); // Set the institution name from localStorage
+=======
+
+  const [institution, setInstitution] = useState(null); // Store institute in state
+  // Fetch institute name from localStorage when the component mounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedInstitution = localStorage.getItem("institution");
+      setInstitution(storedInstitution); // Set the institute name from localStorage
+>>>>>>> b2449caa37d52a9b92e2851f16004de64a8e8710
     }
   }, []);
   // Redirect to login if no token is available
@@ -190,7 +200,11 @@ export default function Page() {
 
             <div className="text-center md:text-left">
               <p className="text-red-500">
+<<<<<<< HEAD
               Institution: <span className="text-red-500">{institution|| "Not Available"}</span>
+=======
+              Institution: <span className="text-red-500">{institution || "Not Available"}</span>
+>>>>>>> b2449caa37d52a9b92e2851f16004de64a8e8710
               </p>
               <p className="text-blue-900">(Pharmanet Membership number: IM-3250)</p>
             </div>

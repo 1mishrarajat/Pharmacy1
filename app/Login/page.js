@@ -218,8 +218,7 @@ export default function Login() {
         toast.success("Login successful! Redirecting...");
         Router.push("/");
       }
-
-      // Check if the institution is available and save it in local storage
+   // Check if the institution is available and save it in local storage
       if (result.institution) {
         localStorage.setItem("institution", result.institution); // Store institution in local storage
       } else {
