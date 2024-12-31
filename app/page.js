@@ -17,11 +17,11 @@ export default function Page() {
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
 
-  const [institute, setInstitution] = useState(null); // Store institute in state
+  const [institution, setInstitution] = useState(null); // Store institute in state
   // Fetch institute name from localStorage when the component mounts
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedInstitution = localStorage.getItem("institute");
+      const storedInstitution = localStorage.getItem("institution");
       setInstitution(storedInstitution); // Set the institute name from localStorage
     }
   }, []);
@@ -192,7 +192,7 @@ export default function Page() {
 
             <div className="text-center md:text-left">
               <p className="text-red-500">
-              Institution: <span className="text-red-500">{institute || "Not Available"}</span>
+              Institution: <span className="text-red-500">{institution || "Not Available"}</span>
               </p>
               <p className="text-blue-900">(Pharmanet Membership number: IM-3250)</p>
             </div>
