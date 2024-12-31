@@ -189,7 +189,7 @@ export default function Subscription() {
                           key={item.user_id}
                           className="bg-white hover:bg-gray-100 transition-colors duration-200 border-t"
                         >
-                          <td className="px-2 sm:px-4 py-2 border">{index + 1}</td>
+                          <td className="px-2 sm:px-4 py-2 border">{item.user_id}</td>
                           <td className="px-2 sm:px-4 py-2 border">{item.full_name}</td>
                           <td className="px-2 sm:px-4 py-2 border">{item.institute}</td>
                           <td className="px-2 sm:px-4 py-2 border">
