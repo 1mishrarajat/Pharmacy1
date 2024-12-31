@@ -245,7 +245,7 @@ export default function Subscription() {
             <form onSubmit={handleFormSubmit}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
-                  User ID
+                  User ID :-
                 </label>
                 <input
                   type="text"
@@ -257,20 +257,36 @@ export default function Subscription() {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Subscribe ID
-                </label>
-                <input
-                  type="text"
-                  name="is_subscribed"
-                  value={formData.is_subscribed}
-                  onChange={handleInputChange}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                />
-              </div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Subscription Status:-
+  </label>
+  <div className="flex items-center">
+    <span
+      className={`mr-3 text-sm font-semibold ${
+        formData.is_subscribed === "1" ? "text-green-600" : "text-red-600"
+      }`}
+    >
+      {formData.is_subscribed === "1" ? "Active" : "Inactive"}
+    </span>
+    <label className="relative inline-flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        checked={formData.is_subscribed === "1"}
+        onChange={(e) =>
+          setFormData((prev) => ({
+            ...prev,
+            is_subscribed: e.target.checked ? "1" : "0",
+          }))
+        }
+        className="sr-only peer"
+      />
+      <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-teal-600 peer-checked:bg-teal-600 dark:bg-gray-700 peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+    </label>
+  </div>
+</div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
-                  Start Date
+                  Start Date :-
                 </label>
                 <input
                   type="date"
@@ -282,7 +298,7 @@ export default function Subscription() {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
-                  Expiry Date
+                  Expiry Date :-
                 </label>
                 <input
                   type="date"

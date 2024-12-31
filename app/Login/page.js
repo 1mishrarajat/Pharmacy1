@@ -162,11 +162,11 @@
 //   );
 // }
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { FaUser, FaLock } from "react-icons/fa";
+import { useState } from "react"; 
+import { useRouter } from "next/navigation"; 
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
+import { FaUser, FaLock } from "react-icons/fa"; 
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function Login() {
@@ -216,7 +216,12 @@ export default function Login() {
         localStorage.setItem("authToken", result.token);
         localStorage.setItem("role", "user");
         toast.success("Login successful! Redirecting...");
-        Router.push( "/");
+        Router.push("/");
+      }
+
+      // Check if the institution is available and save it in local storage
+      if (result.institution) {
+        localStorage.setItem("institute", result.institution); // Store institution in local storage
       } else {
         toast.error(result.message || "Invalid username or password.");
       }
@@ -242,7 +247,6 @@ export default function Login() {
       </Helmet>
       <>
         <ToastContainer />
-
         <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-[url('/bg-10.png')] bg-no-repeat bg-coverz bg-center">
           <div className="relative w-full max-w-md bg-white shadow-2xl rounded-3xl overflow-hidden p-8">
             <div className="flex justify-center">
@@ -254,9 +258,7 @@ export default function Login() {
                 className="w-32 object-contain"
               />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Login
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-6 relative">
                 <label htmlFor="username" className="block text-gray-700 font-semibold mb-2">
@@ -288,7 +290,6 @@ export default function Login() {
                   onChange={handleChange}
                   type="password"
                   name="password"
-                  // id="password"
                   className="w-full p-4 pl-10 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter your password"
                   value={valuedata.password}

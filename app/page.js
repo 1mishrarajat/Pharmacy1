@@ -16,7 +16,15 @@ export default function Page() {
   const itemsPerPage = 10;
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
-  const [institute, setInstitute] = useState("");
+  const [institution, setInstitution] = useState(null); // Store institution in state
+  
+  // Fetch institution name from localStorage when the component mounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedInstitution = localStorage.getItem("institute");
+      setInstitution(storedInstitution); // Set the institution name from localStorage
+    }
+  }, []);
   
   // Redirect to login if no token is available
   useEffect(() => {
@@ -32,13 +40,8 @@ export default function Page() {
     }
   }, []);
   
-  // Use useEffect to set institute once
-  useEffect(() => {
-    const storedinstitute = localStorage.getItem('institute');
-    if (storedinstitute) {
-      setInstitute(storedinstitute); // Set the institute state
-    }
-  }, []);
+ // Use useEffect to set institute once
+
 
   // Fetch data when token is available
   const fetchData = async (page) => {
@@ -147,6 +150,7 @@ export default function Page() {
     localStorage.removeItem("authToken");
     localStorage.removeItem("role");
     localStorage.removeItem("username");
+    localStorage.removeItem("institution");
     // Redirect to login page
     Router.push("/Login");
   };
@@ -188,12 +192,9 @@ export default function Page() {
 
             <div className="text-center md:text-left">
               <p className="text-red-500">
-                <span className="text-blue-900 font-semibold"   
-                >
-                  Institution: <span className="text-red-500">"{institute}"</span>
-                </span>
+              Institution: <span className="text-red-500">{institution || "Not Available"}</span>
               </p>
-              <p className="text-blue-900">(DELNET Membership number: IM-3250)</p>
+              <p className="text-blue-900">(Pharmanet Membership number: IM-3250)</p>
             </div>
             <div className="flex items-center space-x-2 cursor-pointer">
               <img

@@ -904,6 +904,10 @@ const SettingsPage = () => {
                 confirmButtonText: "OK",
               }).then(() => {
                 localStorage.removeItem("authToken");
+                localStorage.removeItem("role");
+                localStorage.removeItem("username");
+                localStorage.removeItem("institute");
+                // Redirect to login page
                 router.push("/Login");
               });
             }}
