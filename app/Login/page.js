@@ -221,7 +221,7 @@ export default function Login() {
 
       // Check if the institution is available and save it in local storage
       if (result.institution) {
-        localStorage.setItem("institute", result.institution); // Store institution in local storage
+        localStorage.setItem("institution", result.institution); // Store institution in local storage
       } else {
         toast.error(result.message || "Invalid username or password.");
       }

@@ -16,20 +16,14 @@ export default function Page() {
   const itemsPerPage = 10;
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
-<<<<<<< HEAD
-  const [institute, setInstitution] = useState(null); // Store institute in state
-=======
-  const [institute, setInstitution] = useState(null); // Store institution in state
->>>>>>> fa110eccbd02effa8b14dbcd6b32cd6bfe7d0850
-  
-  // Fetch institute name from localStorage when the component mounts
+   const [institution, setInstitution] = useState(null);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedInstitution = localStorage.getItem("institute");
-      setInstitution(storedInstitution); // Set the institute name from localStorage
+      const storedInstitution = localStorage.getItem("institution");
+      setInstitution(storedInstitution); // Set the institution name from localStorage
     }
   }, []);
-  
   // Redirect to login if no token is available
   useEffect(() => {
     // Check if we're on the client-side first (window is available)
@@ -154,7 +148,7 @@ export default function Page() {
     localStorage.removeItem("authToken");
     localStorage.removeItem("role");
     localStorage.removeItem("username");
-    localStorage.removeItem("institute");
+    localStorage.removeItem("institution");
     // Redirect to login page
     Router.push("/Login");
   };
@@ -196,7 +190,7 @@ export default function Page() {
 
             <div className="text-center md:text-left">
               <p className="text-red-500">
-              Institution: <span className="text-red-500">{institute || "Not Available"}</span>
+              Institution: <span className="text-red-500">{institution|| "Not Available"}</span>
               </p>
               <p className="text-blue-900">(Pharmanet Membership number: IM-3250)</p>
             </div>
@@ -379,4 +373,5 @@ export default function Page() {
     </HelmetProvider>
   );
 }
+
 
