@@ -16,13 +16,13 @@ export default function Page() {
   const itemsPerPage = 10;
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
-  const [institution, setInstitution] = useState(null); // Store institution in state
+  const [institute, setInstitution] = useState(null); // Store institute in state
   
-  // Fetch institution name from localStorage when the component mounts
+  // Fetch institute name from localStorage when the component mounts
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedInstitution = localStorage.getItem("institute");
-      setInstitution(storedInstitution); // Set the institution name from localStorage
+      setInstitution(storedInstitution); // Set the institute name from localStorage
     }
   }, []);
   
@@ -150,7 +150,7 @@ export default function Page() {
     localStorage.removeItem("authToken");
     localStorage.removeItem("role");
     localStorage.removeItem("username");
-    localStorage.removeItem("institution");
+    localStorage.removeItem("institute");
     // Redirect to login page
     Router.push("/Login");
   };
@@ -192,7 +192,7 @@ export default function Page() {
 
             <div className="text-center md:text-left">
               <p className="text-red-500">
-              Institution: <span className="text-red-500">{institution || "Not Available"}</span>
+              Institution: <span className="text-red-500">{institute || "Not Available"}</span>
               </p>
               <p className="text-blue-900">(Pharmanet Membership number: IM-3250)</p>
             </div>
