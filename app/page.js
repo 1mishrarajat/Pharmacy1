@@ -16,7 +16,7 @@ export default function Page() {
   const itemsPerPage = 10;
   const [filteredData, setFilteredData] = useState([]);
   const [token, setToken] = useState(null); // Store token in state
-  const [institution, setInstitution] = useState(null); // Store institution in state
+  const [institute, setInstitution] = useState(null); // Store institution in state
   
   // Fetch institution name from localStorage when the component mounts
   useEffect(() => {
