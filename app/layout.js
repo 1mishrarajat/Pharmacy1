@@ -47,10 +47,13 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "My App",
+  title: "Pharmanet",
   description: "A Next.js application with role-based authentication.",
+  icons: {
+    icon: "./Pharmanetlogo.png",  // Ensure favicon is inside public/
+  },
 };
-
+   
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
